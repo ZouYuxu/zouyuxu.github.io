@@ -1,5 +1,8 @@
-site_name: My Docs
+site_name: ZouYuXu
 site_url: https://zouyuxu.github.io/
+repo_url: https://github.com/ZouYuxu/zouyuxu.github.io
+repo_name: repository
+
 theme:
   name: material
   features:
