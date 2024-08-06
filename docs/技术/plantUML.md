@@ -50,7 +50,7 @@ skinparam partitionBackgroundColor<<Stack>> LightGoldenRodYellow
 ## 时序图
 
 ```plantuml
-@startuml
+	@startuml
 participant "用户界面" as UI
 database "数据库" as DB
 participant "日志系统" as Logger
@@ -64,7 +64,6 @@ DB --> UI : 返回结果
 deactivate DB
 @enduml
 ```
-
 
 ## 参考
 
