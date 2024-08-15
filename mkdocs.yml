@@ -4,6 +4,7 @@ repo_url: https://github.com/ZouYuxu/zouyuxu.github.io
 repo_name: repository
 
 theme:
+  language: zh
   name: material
   features:
     - navigation.tabs
