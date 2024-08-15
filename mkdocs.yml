@@ -36,5 +36,5 @@ theme:
         name: Switch to system preference
 
 plugins:
-  - search
-  - typeset
+    - search
+    - typeset
