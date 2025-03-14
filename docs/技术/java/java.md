@@ -3,12 +3,11 @@
 ### 访问权限
 
 1. private，实例可见
-2. protected，继承实例可见
-3. default，包可见
+2. default，包可见
+3. protected，继承实例可见
 4. public，所有可见
 
 子类的访问权限需要高于父类，满足了里氏替换原则
-
 
 ### 代码初始化块
 
