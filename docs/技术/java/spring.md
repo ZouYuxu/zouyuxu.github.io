@@ -141,3 +141,58 @@ loggin：
 #### 请求头匹配
 
 ![1741830165886](image/spring/1741830165886.png)
+
+### spring 事务
+
+#### 事务的特性（ACID）
+
+1. 原子性
+2. 一致性
+3. 隔离性
+4. 持久性
+
+#### 如何保证数据库的原子性
+
+发生异常的时候，根据undolog恢复到执行前的数据
+
+#### 事务管理器
+
+```java
+package org.springframework.transaction;
+
+import org.springframework.lang.Nullable;
+
+public interface PlatformTransactionManager {
+    //获得事务
+    TransactionStatus getTransaction(@Nullable TransactionDefinition var1) throws TransactionException;
+    //提交事务
+    void commit(TransactionStatus var1) throws TransactionException;
+    //回滚事务
+    void rollback(TransactionStatus var1) throws TransactionException;
+}
+```
+
+#### [事务属性](https://javaguide.cn/system-design/framework/spring/spring-transaction.html#transactiondefinition-%E4%BA%8B%E5%8A%A1%E5%B1%9E%E6%80%A7) TransactionDefinition
+
+1. 传播行为
+2. 隔离级别
+3. 回滚规则
+
+##### **`PROPAGATION_REQUIRED`**
+
+1. 外方法没开启事务或者不是required的话，内方法是required，内方法会新开一个自己的事务，互不打扰
+2. 内外方法都是required的话，就是用同一个事务
+
+##### `PROPAGATION_REQUIRED_NEW`
+
+1. 内方法required new，新建一个事务，互不干扰
+
+##### **`PROPAGATION_NESTED`**
+
+1. 子事务依赖于父事务，父级提交，子才能提交，父级回滚，子回滚
+
+##### **`MANDATORY`**
+
+1. 强制需要事务
+
+#### 事务状态 TransactionStatus
