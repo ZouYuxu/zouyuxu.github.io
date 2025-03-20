@@ -34,6 +34,149 @@
 
 如果继承了抽象类，一定要具体实现抽象方法，否则子类还是抽象类
 
+### Stream API
+
+#### peek
+
+执行操作
+
+#### flatmap
+
+```java
+
+collect.values().stream()
+
+    .flatMap(List::stream)
+
+```
+
+#### groupingBy
+
+```java
+
+// 生成 Map<String, List>，默认key是N
+
+// {Y:list，N：list} 
+
+list.collect(Collectors.groupingBy(recordVo ->
+
+        Optional.ofNullable(recordVo.getRequired())
+
+                .orElse("N")
+
+    ));
+
+```
+
+#### 按照指定顺序
+
+1. 保持插入顺序
+
+```java
+
+Map<String, List<WhqPscSdbBrandSurveyCollaborationRecordVo>> collect = list.stream()
+
+    .peek(v ->v.setSelect(APPROVE))
+
+    .collect(Collectors.groupingBy(
+
+        WhqPscSdbBrandSurveyCollaborationRecordVo::getLevel1Category,
+
+        LinkedHashMap::new,  // 使用LinkedHashMap保持插入顺序
+
+        Collectors.toList()
+
+    ));
+
+```
+
+2. 字母顺序排序
+
+```java
+
+() ->newTreeMap<>(Comparator.naturalOrder()), // 按字母排序
+
+ () ->newTreeMap<>(Comparator.reverseOrder()),
+
+```
+
+3. 指定顺序排序
+
+```java
+
+// 定义你需要的固定顺序（示例顺序）
+
+List<String> specifiedOrder = Arrays.asList("Contact", "Address", "Bank", "Certification");
+
+ .sorted(Comparator.comparingInt(v ->specifiedOrder.indexOf(v.getLevel1Category())))
+
+
+```
+
+#### collectingAndThen
+
+```java
+
+// 后置处理器
+
+Map<String, List<WhqPscSdbBrandSurveyCollaborationRecordVo>> collect = rejectRecordVos.stream()
+
+        .collect(Collectors.groupingBy(v ->v.getLevel1Category(),
+
+                Collectors.collectingAndThen(Collectors.toList(),
+
+                        list ->list.stream().peek(v ->v.setSelect(REJECT))
+
+                                .collect(Collectors.toList()))));
+
+```
+
+#### mapping
+
+```java
+
+Map<String, String> rejectFieldsMap = rejectRecordVos.stream()
+
+        .peek(v ->v.setReviewResult("N"))
+
+        .collect(Collectors.groupingBy(v ->v.getLevel1Category(),
+
+                Collectors.mapping(v -> {
+
+                    switch (v.getLevel1Category()) {
+
+                        case"Contract"-> {
+
+                            returnv.getChangedFieldUpperLevel();
+
+                        }
+
+                        default-> {
+
+                            returnv.getChangedField();
+
+                        }
+
+                    }
+
+                }, Collectors.collectingAndThen(Collectors.toSet(),
+
+                        fields ->String.join(", ", fields)))));
+
+```
+
+
+### 时间转换
+
+```java
+
+LocalDateTimeyesterdayStart = LocalDate.now().minusDays(1).atStartOfDay(); // 获取昨天的00:00:00
+
+        Datedate = Date.from(yesterdayStart.atZone(ZoneId.systemDefault()).toInstant());
+
+```
+
+
 ## 内存模型
 
 ## 并发

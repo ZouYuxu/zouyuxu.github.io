@@ -196,3 +196,9 @@ public interface PlatformTransactionManager {
 1. 强制需要事务
 
 #### 事务状态 TransactionStatus
+
+#### spring aop动态代理
+
+如果目标对象实现了接口，使用jdk Proxy创建代理对象
+
+如果没实现接口，使用了继承，使用Cglib
