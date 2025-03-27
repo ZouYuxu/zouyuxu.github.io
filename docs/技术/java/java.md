@@ -165,7 +165,6 @@ Map<String, String> rejectFieldsMap = rejectRecordVos.stream()
 
 ```
 
-
 ### 时间转换
 
 ```java
@@ -175,7 +174,6 @@ LocalDateTimeyesterdayStart = LocalDate.now().minusDays(1).atStartOfDay(); // �
         Datedate = Date.from(yesterdayStart.atZone(ZoneId.systemDefault()).toInstant());
 
 ```
-
 
 ## 内存模型
 
@@ -333,3 +331,41 @@ monitorexit
 同步块的作用范围尽可能小，使得操作数尽可能少，等待时间尽可能少
 
 但是频繁的上锁和解锁也会影响性能
+
+### 索引
+
+#### 介绍
+
+排序好的数据结构，用于查询和索引数据。
+
+减少IO的次数，但是创建索引和维护索引需要耗费时间和空间
+
+#### 数据结构
+
+##### Hash
+
+查询时间复杂度O(1)
+
+没有使用的原因，不支持顺序和范围查询
+
+##### 二叉查找树（BST）
+
+特点：
+
+1. 左子树所有节点小于根节点
+2. 右子树所有节点大于根节点
+3. 左右子树也是BST
+
+左右子树深度不超过1的话，查找效率很高，log（n），如果是有序插入的话，会变成链表，效率退化为n
+
+##### 平衡二叉树（AVL）
+
+任何节点的左右子树高度之差不超过1，log(n)（查找、插入、删除）
+
+四种旋转操作保证平衡，LL、RR、LR、RL
+
+缺点：频繁旋转，增加开销降低效率
+
+每个树节点只保存一个数据，频繁IO
+
+##### 红黑树（自平衡二叉查找树）
