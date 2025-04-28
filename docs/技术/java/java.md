@@ -68,6 +68,40 @@ list.collect(Collectors.groupingBy(recordVo ->
 
 ```
 
+多个栏位
+
+```java
+        Collector<String, ?, String> filteringAndJoining = Collectors.filtering(StrUtil::isNotBlank, Collectors.joining(";"));
+        Map<String, String> companyMap = companyDataVos.stream()
+                .collect(Collectors.groupingBy(WhqVcfVendorCompanyDataVo::getVendorCode,
+                        Collectors.mapping(WhqVcfVendorCompanyDataVo::getCompany,
+                                filteringAndJoining)));
+        List<WhqVcfVendorPurchaseOrgDataVo> purchaseOrgDataVos = purchaseOrgDataRepository.findAll();
+        Map<String, WhqVcfVendorPurchaseOrgDataVo> purchaseOrgMap = purchaseOrgDataVos.stream()
+                .collect(Collectors.groupingBy(
+                        WhqVcfVendorPurchaseOrgDataVo::getVendorCode,
+                        Collectors.teeing(
+                                Collectors.mapping(WhqVcfVendorPurchaseOrgDataVo::getPurOrg,
+                                        filteringAndJoining),
+                                Collectors.mapping(WhqVcfVendorPurchaseOrgDataVo::getSupplyType,
+                                        filteringAndJoining),
+                                WhqVcfVendorPurchaseOrgDataVo::new
+                        )
+                ));
+
+        List<WhqVcfVendorBankDataVo> bankDataVos = whqVcfVendorBankDataRepository.findAll();
+        Map<String, WhqVcfVendorBankDataVo> bankMap = bankDataVos.stream()
+                .collect(Collectors.groupingBy(WhqVcfVendorBankDataVo::getVendorCode, Collectors.teeing(
+                                Collectors.mapping(WhqVcfVendorBankDataVo::getContactPerson,
+                                        filteringAndJoining),
+                                Collectors.mapping(WhqVcfVendorBankDataVo::getContactEmail,
+                                        filteringAndJoining),
+                                WhqVcfVendorBankDataVo::new
+                        )
+                ));
+```
+
+
 #### 按照指定顺序
 
 1. 保持插入顺序
