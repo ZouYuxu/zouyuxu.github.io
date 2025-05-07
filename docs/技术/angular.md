@@ -1,3 +1,36 @@
+### debounce防抖
+
+调用方法inputvalue
+
+```ts
+(inputValue)="getVendorListDebouncedFunc($event)"
+
+<input nz-input [(ngModel)]="item.value" [maxlength]="item?.maxChars ? item.maxChars:100"
+            (input)="inputValueChange($event, item)" placeholder="{{item.placeholder}}" [nzAutocomplete]="auto"
+            [disabled]="item.disabled" />
+```
+
+导入和编写
+
+```ts
+import { debounce, DebouncedFunc } from 'lodash';
+
+getVendorListDebouncedFunc: DebouncedFunc<(value: any) => void>;
+
+constructor(
+    this.getVendorListDebouncedFunc = debounce(
+      this.getVendorList.bind(this),
+      300
+    );
+  }
+
+getVendorList(param) {
+    const { identify, inputValue } = param;
+    this.callApiCommonService
+}
+
+```
+
 
 
 如何使用angular进行测试
