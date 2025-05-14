@@ -1,4 +1,4 @@
-## nacos
+## nacos 
 
 ### pom文件添加依赖
 
@@ -27,8 +27,17 @@ spring:
         server-addr: 127.0.0.1:8848
 ```
 
-## gateway
+## nacos config
 
+配置中心
+
+1. 统一管理配置
+2. 必须重启微服务才能生效
+
+![1747208584944](image/nacos/1747208584944.png)
+
+
+## gateway
 
 applicaiton yml
 
@@ -45,8 +54,6 @@ uri：匹配规则后，请求的路径，lb（load balance）+服务名称
 predicates：数组类型：断言url是否匹配规则，成功的话转发到uri上去
 
 filters：strip去除前缀，再转发给uri，比如order-serv/orders/1变成orders/1
-
-
 
 ## feign
 
