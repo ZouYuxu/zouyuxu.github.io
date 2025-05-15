@@ -1,4 +1,4 @@
-## nacos 
+## nacos
 
 ### pom文件添加依赖
 
@@ -36,7 +36,6 @@ spring:
 
 ![1747208584944](image/nacos/1747208584944.png)
 
-
 ## gateway
 
 applicaiton yml
@@ -68,3 +67,18 @@ feign默认继承了ribben，负载均衡
 ![1747126529949](image/nacos/1747126529949.png)
 
 ![1747126566053](image/nacos/1747126566053.png)
+
+## 跨域问题
+
+协议、ip、端口一致
+
+1. 前端设置代理
+2. 后端允许访问
+
+### springboot跨域访问
+
+![1747287147907](image/nacos/1747287147907.png)
+
+### springcloud
+
+![1747287496477](image/nacos/1747287496477.png)
