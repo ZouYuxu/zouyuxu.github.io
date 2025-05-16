@@ -31,8 +31,6 @@ getVendorList(param) {
 
 ```
 
-
-
 如何使用angular进行测试
 
 如何不断测试，修改文件即进行测试
@@ -70,3 +68,7 @@ db连线超时，~~是因为使用的是jdbc:postgresql://10.20.100.4:6432/psc?u
         additionalPicList = initParamList(additionalPicList);
         Array additionalPicArray = connection.createArrayOf("text", additionalPicList.toArray(new String[0]));
 ```
+
+### 删除bypassSecurityTrustHtml
+
+这个方法会导致sonarqube hotspot
