@@ -69,6 +69,23 @@ db连线超时，~~是因为使用的是jdbc:postgresql://10.20.100.4:6432/psc?u
         Array additionalPicArray = connection.createArrayOf("text", additionalPicList.toArray(new String[0]));
 ```
 
+## Sonar
+
 ### 删除bypassSecurityTrustHtml
 
 这个方法会导致sonarqube hotspot
+
+[feature:autoinde:psc_slcweb:1.0.16 (!119) · Merge requests · Avatar / avtsdm / psc / ang / psc_slcweb · GitLab](https://gitlab.wistron.com/avatar/avtsdm/psc/ang/psc_slcweb/-/merge_requests/119/diffs)
+
+```javascript
+
+transform(value: string[]): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(joinedString);
+    return this.sanitizer.sanitize(SecurityContext.HTML, joinedString);
+```
+
+![1748309981727](image/angular/1748309981727.png)
+
+### 去除重复度
+
+https://gitlab.wistron.com/avatar/avtsdm/psc/ang/psc_slcweb/-/blob/master/.gitlab-ci.yml?ref_type=heads#L32-50

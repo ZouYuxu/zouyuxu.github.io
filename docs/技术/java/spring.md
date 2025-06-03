@@ -202,3 +202,9 @@ public interface PlatformTransactionManager {
 如果目标对象实现了接口，使用jdk Proxy创建代理对象
 
 如果没实现接口，使用了继承，使用Cglib
+
+
+### spring cache
+
+
+![1748508961259](image/spring/1748508961259.png)
