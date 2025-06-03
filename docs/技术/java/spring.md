@@ -2,6 +2,18 @@ BeanFactory是ApplicationContext的父接口
 
 也是applicationContext的成员变量，通过组合来实现功能
 
+### 自动装配机制
+
+1.创建配置类，所有需要创建对象加上@bean
+
+![1747747609366](image/spring/1747747609366.png)
+
+2.在resources/META-INF/spring.factories文件中写好上面的配置类
+
+![1747747456246](image/spring/1747747456246.png)
+
+原理：spring容器会去合并两个项目的resources文件夹，如果发现了sprnig.factories文件，会执行里面配置的一些指令，比如自动配置，这样就可以解决引入其他依赖的时候，还需要额外配置的问题
+
 ### BeanFactory和ApplicationContext的区别
 
 1. bean工厂和bean容器（更后期，更加高级）
@@ -202,6 +214,23 @@ public interface PlatformTransactionManager {
 如果目标对象实现了接口，使用jdk Proxy创建代理对象
 
 如果没实现接口，使用了继承，使用Cglib
+
+
+#### @cacheable
+
+穿透查询
+
+#### @cacheput
+
+总是执行完方法，并且把结果新增cache
+
+用于新增。如果是更新的话，会造成数据不一致的问题
+
+#### @cacheEvict
+
+默认执行完方法后，清空缓存
+
+用于更新或者删除
 
 
 ### spring cache

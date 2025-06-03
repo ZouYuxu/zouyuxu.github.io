@@ -42,7 +42,7 @@ zrangebyscore找到所有的过期元素，加入到就绪消息列表中，这�
 ##### 读：
 
 1. 从cache中读取，成功就直接返回
-2. 读取不到，就从DB中读取，在放在cache中
+2. 读取不到，就从DB中读取，再放在cache中
 
 ##### 注意：
 
@@ -73,7 +73,6 @@ zrangebyscore找到所有的过期元素，加入到就绪消息列表中，这�
 2. 读取不到，先从DB写入到cache，再返回
 
 ### Write Behind Pattern（异步缓存写入）
-
 
 ### Redis事务
 
