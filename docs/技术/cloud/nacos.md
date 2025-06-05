@@ -82,3 +82,24 @@ feign默认继承了ribben，负载均衡
 ### springcloud
 
 ![1747287496477](image/nacos/1747287496477.png)
+
+## nacos鉴权
+
+### config配置档
+
+nacos\conf\application.properties
+
+```properties
+### If turn on auth system:
+nacos.core.auth.enabled=true
+
+nacos.core.auth.server.identity.key=jojo
+nacos.core.auth.server.identity.value=jojo
+
+### worked when nacos.core.auth.system.type=nacos
+
+### The default token (Base64 String):
+nacos.core.auth.plugin.nacos.token.secret.key=VGhpc01zTX1DdXN0b21TZWNyZXRLZXkwMTIzNDU2Nzg=
+```
+
+默认账号密码是 nacos/nacos
