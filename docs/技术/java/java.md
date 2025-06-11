@@ -216,6 +216,29 @@ LocalDateTimeyesterdayStart = LocalDate.now().minusDays(1).atStartOfDay(); // �
 
 ```
 
+
+
+### json报错
+
+> com.wistron.sdbcontext.acl.adapters.messages.maintainvendorcodevos.SourcerInfoResVo), not marked as ignorable (5 known properties: "picSourcerName", "picSourcerProxy", "picSourcerCode", "picSourcerOwner", "picSourcerManager"])
+> at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 24] (through reference chain: java.util.ArrayList[0]->com.wistron.sdbcontext.acl.adapters.messages.maintainvendorcodevos.SourcerInfoResVo["pic_sourcer_code"])，Exception types：class com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException, cause : null
+
+方法一：全局配置ObjectMapper策略
+
+```java
+        mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+
+```
+
+方法二：在每个字段上面加上即可
+
+```java
+    @JsonProperty("pic_sourcer_code")
+    private String picSourcerCode;
+```
+
+
 ## 内存模型
 
 ## 并发
