@@ -216,8 +216,6 @@ LocalDateTimeyesterdayStart = LocalDate.now().minusDays(1).atStartOfDay(); // �
 
 ```
 
-
-
 ### json报错
 
 > com.wistron.sdbcontext.acl.adapters.messages.maintainvendorcodevos.SourcerInfoResVo), not marked as ignorable (5 known properties: "picSourcerName", "picSourcerProxy", "picSourcerCode", "picSourcerOwner", "picSourcerManager"])
@@ -238,6 +236,22 @@ LocalDateTimeyesterdayStart = LocalDate.now().minusDays(1).atStartOfDay(); // �
     private String picSourcerCode;
 ```
 
+#### unknown column
+
+> Unrecognized field "pic_sourcer_owner" (class com.wistron.sdbcontext.acl.adapters.messages.maintainvendorcodevos.SourcerInfoOptionVo), not marked as ignorable (2 known properties: "pic_sourcer_name", "pic_sourcer_code"])
+> at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 85] (through reference chain: java.util.ArrayList[0]->com.wistron.sdbcontext.acl.adapters.messages.maintainvendorcodevos.SourcerInfoOptionVo["pic_sourcer_owner"])
+
+**配置Jackson忽略未知字段**：如果无法确定JSON数据的格式或不想频繁更新类定义，可以配置Jackson在反序列化时忽略未知的字段。可以在类上添加注解 `@JsonIgnoreProperties(ignoreUnknown = true)`，或者在全局配置中设置忽略未知字段。
+
+```java
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class) // 序列化时使用snake_case
+public class SourcerInfoOptionVo {
+    @JsonProperty("pic_sourcer_code")
+    private String picSourcerCode;
+    @JsonProperty("pic_sourcer_name")
+    private String picSourcerName;
+}
+```
 
 ## 内存模型
 
