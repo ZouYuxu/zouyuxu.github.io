@@ -6,6 +6,14 @@ podman machine start
 pip3 install podman-compose
 ```
 
+### podman-compose
+
+```
+podman-compose up -d
+podman-compose down
+
+```
+
 ### 参考资料
 
 [podman快捷键](https://docs.podman.org.cn/en/latest/Commands.html)
