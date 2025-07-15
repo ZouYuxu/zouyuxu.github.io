@@ -38,3 +38,18 @@ expire key 60 # 其他类型
 
 1. 缓解内存消耗
 2. 临时存在的业务处理更高效（1分钟的验证码）
+
+### 指令
+
+删除制定前缀的key
+
+```bash
+    redis-cli --scan --pattern "prefix*" > keys.txt &&for /f %i in (keys.txt) do redis-cli DEL "%i"
+
+```
+
+查询制定前缀的key
+
+```bash
+keys xxxx*
+```
