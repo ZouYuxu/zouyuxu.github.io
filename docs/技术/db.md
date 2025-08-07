@@ -31,3 +31,32 @@
 交错模式下，所有的insert-like的语句都不使用表级别的锁，而是轻量级互斥锁
 
 主从同步需求的话，设置为交错模式会有不一致的问题
+
+
+### 实际问题
+
+#### 如果栏位以;隔开，如何查询是否包含某个数据
+
+例如123;456;789或者123；456或者456，如何查找是否456
+
+直接ilike %email%是不行的，这样不是全匹配，可能会找到3456
+
+```java
+        String userEmail = UserInfoThreadLocalUtil.userIdLocal.get();
+        String sql;
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        if (StringUtils.equalsIgnoreCase("pending", vo.getType())) {
+            sql = "SELECT * FROM xxx.table WHERE " +
+                    "(reviewer ILIKE :userEmail OR " +
+                    "reviewer ILIKE CONCAT(:userEmail, ';%') OR " +
+                    "reviewer ILIKE CONCAT('%;', :userEmail) OR " +
+                    "reviewer ILIKE CONCAT('%;', :userEmail, ';%'))";
+        } else {
+            sql = "SELECT * FROM table WHERE creator ILIKE :userEmail";
+        }
+        params.addValue("userEmail", userEmail);
+        vo.setSortedColumnIfBlank("modify_date");
+        StringBuilder stringBuilder = new StringBuilder(sql);
+        return JDBCTemplateUtil.getPageResult(proccommonNamedJdbcTemplate, stringBuilder, vo, params, CommonInboxTaskEntity.class);
+```

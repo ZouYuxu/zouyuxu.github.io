@@ -37,3 +37,9 @@ OutOfMemory,无法申请到足够多的空间
 最大值为啥是15，因为在对象头中记录年龄，一般是4位，最大可以表示十进制的15，
 
 #### 2. 方法区
+
+存储虚拟机加载类的 类信息、字段信息、方法信息、常量、静态变量、即时编译器编译后的代码缓存等
+
+方法区和元空间的区别：永久代和元空间相当于方法区的两种实现方式
+
+![HotSpot 虚拟机方法区的两种实现](https://oss.javaguide.cn/github/javaguide/java/jvm/method-area-implementation.png)
