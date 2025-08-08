@@ -32,8 +32,32 @@
 
 主从同步需求的话，设置为交错模式会有不一致的问题
 
-
 ### 实际问题
+
+#### springdata jdbc希望id能直接新增，而不是修改
+
+写入资料的时候会根据是否传入id来判断修改还是新增
+
+现在的情形是id也要新增[](https://)
+
+```
+public class WhqPscSdbGpmVendorGroupEntity implements Persistable<String> {
+    @Id
+    private String vcode;
+
+    @Transient
+    private Boolean isInsert = true;
+
+    @Override
+    public String getId() {
+        return vcode;
+    }
+
+    @Override
+    public boolean isNew() {
+        return isInsert;
+    }
+```
 
 #### 如果栏位以;隔开，如何查询是否包含某个数据
 
