@@ -65,6 +65,17 @@ public class WhqPscSdbGpmVendorGroupEntity implements Persistable<String> {
 
 直接ilike %email%是不行的，这样不是全匹配，可能会找到3456
 
+##### 更简洁的方法
+
+正则表达式，可以实现` `、`，`、`；`前后缀的匹配
+
+```java
+ sql = "SELECT * FROM " + VIEW + " WHERE reviewer ~* :emailPattern";
+params.addValue("emailPattern", "(^|\\s*[,;]\\s*)" + userEmail + "(\\s*[,;]\\s*|$)");
+```
+
+##### 之前的方法，比较冗杂
+
 ```java
         String userEmail = UserInfoThreadLocalUtil.userIdLocal.get();
         String sql;
