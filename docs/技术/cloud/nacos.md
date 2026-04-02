@@ -36,7 +36,7 @@ spring:
 
 ![1747208584944](image/nacos/1747208584944.png)
 
-## gateway
+## api gateway
 
 applicaiton yml
 
@@ -53,6 +53,11 @@ uri：匹配规则后，请求的路径，lb（load balance）+服务名称
 predicates：数组类型：断言url是否匹配规则，成功的话转发到uri上去
 
 filters：strip去除前缀，再转发给uri，比如order-serv/orders/1变成orders/1
+
+
+call 微服务api的时候，API gateway网址 + server前缀 + URL
+
+例如：http://localhost:9000/product/product/selectByIdList
 
 ## feign
 
@@ -82,3 +87,28 @@ feign默认继承了ribben，负载均衡
 ### springcloud
 
 ![1747287496477](image/nacos/1747287496477.png)
+
+## nacos鉴权
+
+### config配置档
+
+nacos\conf\application.properties
+
+```properties
+### If turn on auth system:
+nacos.core.auth.enabled=true
+
+nacos.core.auth.server.identity.key=jojo
+nacos.core.auth.server.identity.value=jojo
+
+### worked when nacos.core.auth.system.type=nacos
+
+### The default token (Base64 String):
+nacos.core.auth.plugin.nacos.token.secret.key=VGhpc01zTX1DdXN0b21TZWNyZXRLZXkwMTIzNDU2Nzg=
+```
+
+默认账号密码是 nacos/nacos
+
+参考
+
+[Naocs2.2.3开启鉴权显示登录页\_哔哩哔哩\_bilibili](https://www.bilibili.com/video/BV1RK421474r/?spm_id_from=333.337.search-card.all.click&vd_source=3efe0c849d96410545543dee57551a27)

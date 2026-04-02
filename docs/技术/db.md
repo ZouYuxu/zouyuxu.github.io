@@ -31,3 +31,67 @@
 交错模式下，所有的insert-like的语句都不使用表级别的锁，而是轻量级互斥锁
 
 主从同步需求的话，设置为交错模式会有不一致的问题
+
+### 实际问题
+
+#### springdata jdbc希望id能直接新增，而不是修改
+
+写入资料的时候会根据是否传入id来判断修改还是新增
+
+现在的情形是id也要新增[](https://)
+
+```
+public class WhqPscSdbGpmVendorGroupEntity implements Persistable<String> {
+    @Id
+    private String vcode;
+
+    @Transient
+    private Boolean isInsert = true;
+
+    @Override
+    public String getId() {
+        return vcode;
+    }
+
+    @Override
+    public boolean isNew() {
+        return isInsert;
+    }
+```
+
+#### 如果栏位以;隔开，如何查询是否包含某个数据
+
+例如123;456;789或者123；456或者456，如何查找是否456
+
+直接ilike %email%是不行的，这样不是全匹配，可能会找到3456
+
+##### 更简洁的方法
+
+正则表达式，可以实现` `、`，`、`；`前后缀的匹配
+
+```java
+ sql = "SELECT * FROM " + VIEW + " WHERE reviewer ~* :emailPattern";
+params.addValue("emailPattern", "(^|\\s*[,;]\\s*)" + userEmail + "(\\s*[,;]\\s*|$)");
+```
+
+##### 之前的方法，比较冗杂
+
+```java
+        String userEmail = UserInfoThreadLocalUtil.userIdLocal.get();
+        String sql;
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        if (StringUtils.equalsIgnoreCase("pending", vo.getType())) {
+            sql = "SELECT * FROM xxx.table WHERE " +
+                    "(reviewer ILIKE :userEmail OR " +
+                    "reviewer ILIKE CONCAT(:userEmail, ';%') OR " +
+                    "reviewer ILIKE CONCAT('%;', :userEmail) OR " +
+                    "reviewer ILIKE CONCAT('%;', :userEmail, ';%'))";
+        } else {
+            sql = "SELECT * FROM table WHERE creator ILIKE :userEmail";
+        }
+        params.addValue("userEmail", userEmail);
+        vo.setSortedColumnIfBlank("modify_date");
+        StringBuilder stringBuilder = new StringBuilder(sql);
+        return JDBCTemplateUtil.getPageResult(proccommonNamedJdbcTemplate, stringBuilder, vo, params, CommonInboxTaskEntity.class);
+```
